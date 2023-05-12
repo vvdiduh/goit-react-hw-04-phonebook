@@ -1,7 +1,9 @@
 export default function ContactList({ contactFilter, deletContact }) {
+  const filteredContacts = contactFilter();
+
   return (
     <ul>
-      {contactFilter.map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, number }) => (
         <li key={id}>
           {name}: {number}
           <button name={id} onClick={deletContact}>

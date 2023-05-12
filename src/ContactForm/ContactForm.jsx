@@ -1,51 +1,52 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+const ContactForm = ({ addContact }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  onInput = e => {
+  const onInput = e => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  submit = e => {
+  const submit = e => {
     e.preventDefault();
-    this.props.addContact(this.state);
+    addContact({ name, number });
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <>
-        <form onSubmit={this.submit}>
-          <h2>Ім'я</h2>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.onInput}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />{' '}
-          <h2>Номер</h2>
-          <input
-            type="tel"
-            name="number"
-            value={number}
-            onChange={this.onInput}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />{' '}
-          <button type="submit">Додати контакт</button>
-        </form>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <form onSubmit={submit}>
+        <h2>Ім'я</h2>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={onInput}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
+        />
+        <h2>Номер</h2>
+        <input
+          type="tel"
+          name="number"
+          value={number}
+          onChange={onInput}
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+        />
+        <button type="submit">Додати контакт</button>
+      </form>
+    </>
+  );
+};
 
 export default ContactForm;
